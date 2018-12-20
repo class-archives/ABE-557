@@ -1,0 +1,1098 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>atherton_557_sterilization_project</title><meta name="generator" content="MATLAB 9.5"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2018-09-27"><meta name="DC.source" content="atherton_557_sterilization_project.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><pre class="codeinput"><span class="comment">% Name: Kathryn Atherton</span>
+
+<span class="comment">% Food Material: Pumpkin Pie Filling</span>
+
+<span class="comment">%-------------------------------------------------------------------------</span>
+<span class="comment">%USE THIS TEMPLATE FOR EACH SCRIPT/FUNCTION THAT YOU WRITE</span>
+<span class="comment">%For each block of code (5-10 lines) in the model provide the following:</span>
+<span class="comment">%       HOW: How does this block of code work?</span>
+<span class="comment">%       WHAT: What does the block of code represent?</span>
+<span class="comment">%       WHY: Why is this block of code included in the model?</span>
+<span class="comment">%For more details, an example of good commenting and bad commenting has</span>
+<span class="comment">%been uploaded to Blackboard.</span>
+<span class="comment">% -------------------------------------------------------------------------</span>
+
+<span class="comment">% These lines clear the command window and the workspace and close any</span>
+<span class="comment">% previously made images to ensure the code runs smoothly.</span>
+
+clc;
+clear;
+close <span class="string">all</span>;
+
+<span class="comment">%---------------Thermal/Physical Properties of the System -----------------</span>
+<span class="comment">%Here place any/all thermal, physical, or kinetic properties of the system.</span>
+<span class="comment">%For each block make sure to answer the HOW/WHAT/WHY questions above.</span>
+
+<span class="comment">% Define how heat moves through the material so that the equations later in</span>
+<span class="comment">% the code can be used. Most of the variables came from the memo/assignment</span>
+<span class="comment">% document but the food composition data came from the USDA database.</span>
+<span class="comment">% User-defined functions (described below) converted Imperial units to SI</span>
+<span class="comment">% units for easier calculations.</span>
+
+<span class="comment">% Filling Properties</span>
+fill_temp = 180; <span class="comment">% deg F, given in blueprint</span>
+
+fill_temp = f_to_c(fill_temp); <span class="comment">% deg C</span>
+
+<span class="comment">% Full Steam Immersion Retort Properties</span>
+steam_temp = 250; <span class="comment">% deg F, given in blueprint</span>
+
+steam_temp = f_to_c(steam_temp); <span class="comment">% deg C</span>
+
+<span class="comment">% Cooling Water Immersion Properties</span>
+exit_temp = 100; <span class="comment">% deg F, given in blueprint</span>
+cool_water_temp_min = 50; <span class="comment">% deg F, given in blueprint</span>
+cool_water_temp_max = 60; <span class="comment">% deg F, given in blueprint</span>
+
+exit_temp = f_to_c(exit_temp); <span class="comment">% deg C</span>
+cool_water_temp_min = f_to_c(cool_water_temp_min); <span class="comment">% deg C</span>
+cool_water_temp_max = f_to_c(cool_water_temp_max); <span class="comment">% deg C</span>
+cool_water_temp = mean([cool_water_temp_min, cool_water_temp_max]); <span class="comment">% deg C</span>
+
+<span class="comment">% Production Line Time Breakdown Properties</span>
+moisture_content_min = 45; <span class="comment">% percent, given in properties of food materials and microbes</span>
+moisture_content_max = 50; <span class="comment">% percent, given in properties of food materials and microbes</span>
+can_diameter = 4.25; <span class="comment">% inches, from https://www.everythingkitchens.com/wisconsin-aluminum-1502-senior-flywheel-can-sealer.html</span>
+
+can_diameter = in_to_cm(can_diameter); <span class="comment">% cm</span>
+
+<span class="comment">% Kinetic Properties of Food Components - selected "worst case scenario"</span>
+<span class="comment">% values</span>
+t_ea = 27; <span class="comment">% kcal/mol, given in properties of food materials and microbes</span>
+t_d250 = 246.9; <span class="comment">% min, given in properties of food materials and microbes</span>
+aa_ea = 24; <span class="comment">% kcal/mol, given in properties of food materials and microbes</span>
+aa_d250 = 1.12; <span class="comment">% days, given in properties of food materials and microbes</span>
+c_ea = 24; <span class="comment">% kcal/mol, given in properties of food materials and microbes</span>
+c_d250 = 1.94; <span class="comment">% days, given in properties of food materials and microbes</span>
+
+t_ea = kcal_to_j(t_ea); <span class="comment">% J/mol</span>
+aa_ea = kcal_to_j(aa_ea); <span class="comment">% J/mol</span>
+c_ea = kcal_to_j(c_ea); <span class="comment">% J/mol</span>
+aa_d250 = days_to_min(aa_d250); <span class="comment">% min</span>
+c_d250 = days_to_min(c_d250); <span class="comment">% min</span>
+
+<span class="comment">% Kinetic Properties of Microorganisms</span>
+cb_ea = 64; <span class="comment">% kcal/mol, given in properties of food materials and microbes</span>
+cb_d250 = 0.2; <span class="comment">% min, given in properties of food materials and microbes</span>
+cp_ea = 72; <span class="comment">% kcal/mol, given in properties of food materials and microbes</span>
+cp_d250 = 0.04; <span class="comment">% min, given in properties of food materials and microbes</span>
+bc_ea = 65; <span class="comment">% kcal/mol, given in properties of food materials and microbes</span>
+bc_d250 = 0.008; <span class="comment">% min, given in properties of food materials and microbes</span>
+
+cb_ea = kcal_to_j(cb_ea); <span class="comment">% J/mol</span>
+cp_ea = kcal_to_j(cp_ea); <span class="comment">% J/mol</span>
+bc_ea = kcal_to_j(bc_ea); <span class="comment">% J/mol</span>
+
+
+<span class="comment">% Nutrient Content of Food Material, Data from USDA Food Composition</span>
+<span class="comment">% Database (ndb.nal.usda.gov/nd), using data from Stonewall Kitchen Ltd.</span>
+<span class="comment">% Pumpkin Pie Filling</span>
+protein = 0.00; <span class="comment">% g protein / 100 g</span>
+fat = 0.00; <span class="comment">% g fat / 100 g</span>
+carbohydrate = 51.11 / 100; <span class="comment">% g carbs / gram</span>
+fiber = 1.1 / 100; <span class="comment">% g fiber / gram</span>
+moisture_content = 1 - protein - fat - carbohydrate - fiber; <span class="comment">% g water / gram</span>
+ash = 0.00 / 100; <span class="comment">% g ash / gram</span>
+<span class="keyword">if</span> moisture_content &lt; (moisture_content_min / 100)
+    moisture_content = moisture_content_min / 100;
+<span class="keyword">elseif</span> moisture_content &gt; (moisture_content_max / 100)
+    moisture_content = (moisture_content_max / 100);
+    ash = 1 - protein - fat - carbohydrate - fiber - moisture_content;
+<span class="keyword">end</span>
+
+<span class="comment">%-------------------Numerical/Analytical Calculations ---------------------</span>
+<span class="comment">%Here place any calculations, mathematical structures, looping structures,</span>
+<span class="comment">%etc that are necessary for the modeling activity. For block of code or</span>
+<span class="comment">%structure make sure to answer the HOW/WHAT/WHY questions above.</span>
+
+<span class="comment">% This works by assuming a small delta t value (1 second) and an M value of</span>
+<span class="comment">% 4 and then calculating delta x from these values before dividing the</span>
+<span class="comment">% radius of the can by the number of layers. This must be done to set the</span>
+<span class="comment">% number of iterations the program must run through for each time iteration.</span>
+
+delt = 1; <span class="comment">% s</span>
+M = 4;
+t_food = fill_temp; <span class="comment">% deg C</span>
+alpha = choi_okos_alpha(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); <span class="comment">% m^2/s</span>
+delx = sqrt(M * delt * alpha); <span class="comment">% m</span>
+delx_cm = delx * 100;
+layers = round((can_diameter / 2) / delx_cm) + 1;
+n = layers; <span class="comment">% layers, currently at surface</span>
+
+<span class="comment">% This uses the Choi-Okos equation for the given initial temperature in</span>
+<span class="comment">% order to start the process of calculating the heat transfer behavior.</span>
+
+k = choi_okos_k(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); <span class="comment">% W/m.C</span>
+rho = choi_okos_density(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); <span class="comment">% kg/m^3, from https://www.aqua-calc.com/calculate/food-volume-to-weight</span>
+cp = choi_okos_cp(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); <span class="comment">% J/kg.C, from https://www.engineeringtoolbox.com/specific-heat-capacity-food-d_295.html</span>
+h_steam = 1/(1/6000 + 1/166); <span class="comment">% W/m^2.C, from ASHRAE Handbook Chapter 9: Thermal Properties of Food</span>
+h_water = 1/(1/300 + 1/166);
+t = 0; <span class="comment">% s</span>
+T = ones(1, layers) * t_food; <span class="comment">% deg C</span>
+T_new = T; <span class="comment">% deg C</span>
+
+<span class="comment">% The arrays are a helpful way to store information to be used later for</span>
+<span class="comment">% each iteration when an unknown number of iterations will occur as before</span>
+<span class="comment">% the loop it is unknown how much time it will take to reach the minimum</span>
+<span class="comment">% desired sterilization level.</span>
+heating_center = [];
+k_cb = thermal_reduction(cb_d250, cb_ea, T(1));
+k_cp = thermal_reduction(cp_d250, cp_ea, T(1));
+k_bc = thermal_reduction(bc_d250, bc_ea, T(1));
+k_t = thermal_reduction(t_d250, t_ea, T(1));
+k_aa = thermal_reduction(aa_d250, aa_ea, T(1));
+k_c = thermal_reduction(c_d250, c_ea, T(1));
+t_avg = [];
+aa_avg = [];
+c_avg = [];
+k_t_avg = [];
+k_aa_avg = [];
+k_c_avg = [];
+lnreduction_cb = 0;
+lnreduction_cp = 0;
+lnreduction_bc = 0;
+lnreduction_t = 0;
+lnreduction_aa = 0;
+lnreduction_c = 0;
+
+
+<span class="comment">% This loop first steps the time and then goes through each node from the</span>
+<span class="comment">% surface to the center and calculates the temperature at that node by</span>
+<span class="comment">% first calculating all the parameters needed via the Choi-Okos using the</span>
+<span class="comment">% last temperature at that node. Then a new temperature is calculated with</span>
+<span class="comment">% the equations defined in Geankoplis. The desired temperatures are stored</span>
+<span class="comment">% in an array. The k value for each microorganism and nutrient is then</span>
+<span class="comment">% calculated. At the end of the loop, the desired data points are saved,</span>
+<span class="comment">% the average nutrient content is found for that time point and saved, and</span>
+<span class="comment">% the total reduction in each microorganism and nutrient is calculated with</span>
+<span class="comment">% the trapezoidal method. Then, the parameters such as time and node number</span>
+<span class="comment">% are reset for the next iteration. This continues until the targeted</span>
+<span class="comment">% microorganism, C. Botulinum, reaches the minimum required reduction to</span>
+<span class="comment">% meet sterilization requirements.</span>
+<span class="keyword">while</span> lnreduction_cb &lt; 12
+    t = t + delt;
+   <span class="keyword">while</span> n &gt; 0
+       <span class="keyword">if</span> n == 1
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(1) = T_center(M, T(2), T(1)); <span class="comment">% deg C</span>
+           heating_center = [heating_center, T_new(1)];
+           k_cb = [k_cb, thermal_reduction(cb_d250, cb_ea, T_new(1))];
+           k_cp = [k_cp, thermal_reduction(cp_d250, cp_ea, T_new(1))];
+           k_bc = [k_bc, thermal_reduction(bc_d250, bc_ea, T_new(1))];
+           k_t = [k_t, thermal_reduction(t_d250, t_ea, T_new(1))];
+           k_aa = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(1))];
+           k_c = [k_c, thermal_reduction(c_d250, c_ea, T_new(1))];
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       <span class="keyword">elseif</span> n == layers
+           k = choi_okos_k(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           rho = choi_okos_density(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           cp = choi_okos_cp(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           T_new(n) = T_outside(T(n), h_steam, n, delx, steam_temp, k, T(n-1), rho, cp, delt) + T(n); <span class="comment">% deg C</span>
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       <span class="keyword">else</span>
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(n) = T_other(n, M, T(n+1), T(n), T(n-1)); <span class="comment">% deg C</span>
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       <span class="keyword">end</span>
+       n = n - 1;
+   <span class="keyword">end</span>
+   T = T_new;
+   n = layers;
+   t_avg = [t_avg, mean(k_t_avg)];
+   aa_avg = [aa_avg, mean(k_aa_avg)];
+   c_avg = [c_avg, mean(k_c_avg)];
+   k_t_avg = [];
+   k_aa_avg = [];
+   k_c_avg = [];
+   lnreduction_cb = trapz(k_cb); <span class="comment">% log reduction</span>
+   lnreduction_cp = trapz(k_cp); <span class="comment">% log reduction</span>
+   lnreduction_bc = trapz(k_bc); <span class="comment">% log reduction</span>
+   lnreduction_t = trapz(k_t); <span class="comment">% log reduction</span>
+   lnreduction_aa = trapz(k_aa); <span class="comment">% log reduction</span>
+   lnreduction_c = trapz(k_c); <span class="comment">% log reduction</span>
+<span class="keyword">end</span>
+
+<span class="comment">% These inform the user that the code is progressing as it should and</span>
+<span class="comment">% outputs important data points such as the optimum temperature and</span>
+<span class="comment">% sterilization time.</span>
+t_hours = t / 3600;
+fprintf(<span class="string">'The time to reach the minimum sterilization requirement is %.2f hours.\n'</span>, t_hours);
+fprintf(<span class="string">'The maximum temperature of the center of the can is %.1f degrees C.\n'</span>, T(1));
+
+<span class="comment">% This loop first steps the time and then goes through each node from the</span>
+<span class="comment">% surface to the center and calculates the temperature at that node by</span>
+<span class="comment">% first calculating all the parameters needed via the Choi-Okos using the</span>
+<span class="comment">% last temperature at that node. Then a new temperature is calculated with</span>
+<span class="comment">% the equations defined in Geankoplis. The desired temperatures are stored</span>
+<span class="comment">% in an array. The k value for each microorganism and nutrient is then</span>
+<span class="comment">% calculated. At the end of the loop, the desired data points are saved,</span>
+<span class="comment">% the average nutrient content is found for that time point and saved, and</span>
+<span class="comment">% the total reduction in each microorganism and nutrient is calculated with</span>
+<span class="comment">% the trapezoidal method. The average temperature of the can is calculated.</span>
+<span class="comment">% Then, the parameters such as time and node number are reset for the next</span>
+<span class="comment">% iteration. This continues until the average temperature of the can</span>
+<span class="comment">% reaches the desired temperature.</span>
+<span class="keyword">while</span> mean(T) &gt; exit_temp
+    t = t + delt;
+   <span class="keyword">while</span> n &gt; 0
+       <span class="keyword">if</span> n == 1
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(1) = T_center(M, T(2), T(1)); <span class="comment">% deg C</span>
+           heating_center = [heating_center, T_new(1)];
+           k_cb = [k_cb, thermal_reduction(cb_d250, cb_ea, T_new(1))];
+           k_cp = [k_cp, thermal_reduction(cp_d250, cp_ea, T_new(1))];
+           k_bc = [k_bc, thermal_reduction(bc_d250, bc_ea, T_new(1))];
+           k_t = [k_t, thermal_reduction(t_d250, t_ea, T_new(1))];
+           k_aa = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(1))];
+           k_c = [k_c, thermal_reduction(c_d250, c_ea, T_new(1))];
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       <span class="keyword">elseif</span> n == layers
+           k = choi_okos_k(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           rho = choi_okos_density(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           cp = choi_okos_cp(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           T_new(n) = T_outside(T(n), h_water, n, delx, cool_water_temp, k, T(n-1), rho, cp, delt) + T(n); <span class="comment">% deg C</span>
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       <span class="keyword">else</span>
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(n) = T_other(n, M, T(n+1), T(n), T(n-1)); <span class="comment">% deg C</span>
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       <span class="keyword">end</span>
+       n = n - 1;
+   <span class="keyword">end</span>
+   t_avg = [t_avg, mean(k_t_avg)];
+   aa_avg = [aa_avg, mean(k_aa_avg)];
+   c_avg = [c_avg, mean(k_c_avg)];
+   k_t_avg = [];
+   k_aa_avg = [];
+   k_c_avg = [];
+   T = T_new;
+   n = layers;
+   lnreduction_cb = trapz(k_cb); <span class="comment">% log reduction</span>
+   lnreduction_cp = trapz(k_cp); <span class="comment">% log reduction</span>
+   lnreduction_bc = trapz(k_bc); <span class="comment">% log reduction</span>
+   lnreduction_t = trapz(k_t); <span class="comment">% log reduction</span>
+   lnreduction_aa = trapz(k_aa); <span class="comment">% log reduction</span>
+   lnreduction_c = trapz(k_c); <span class="comment">% log reduction</span>
+<span class="keyword">end</span>
+
+<span class="comment">% These inform the user that the code is progressing as it should and</span>
+<span class="comment">% outputs important data points such as the reduction of the microorganisms</span>
+<span class="comment">% and nutrients and the total sterilization and cooling time.</span>
+t_hours = t / 3600; <span class="comment">% hours</span>
+fprintf(<span class="string">'The total sterilization and cooling process takes %.2f hours.\n'</span>, t_hours);
+fprintf(<span class="string">'The total reduction in C. Botulinum is %.2f.\n'</span>, lnreduction_cb);
+fprintf(<span class="string">'The total reduction in C. Perfringens is %.2f.\n'</span>, lnreduction_cp);
+fprintf(<span class="string">'The total reduction in B. Cereus is %.2f.\n'</span>, lnreduction_bc)
+fprintf(<span class="string">'The total reduction in Thiamine is %.2f.\n'</span>, lnreduction_t)
+fprintf(<span class="string">'The total reduction in Ascorbic Acid is %.2f.\n'</span>, lnreduction_aa)
+fprintf(<span class="string">'The total reduction in Cobalamin is %.2f.\n'</span>, lnreduction_c)
+
+<span class="comment">% This section is performed to be able to plot the average nutrient</span>
+<span class="comment">% activity of the can.</span>
+t_logred_avg = t_avg .* t;
+aa_logred_avg = aa_avg .* t;
+c_logred_avg = c_avg .* t;
+
+<span class="comment">%-------------------------- Graphical/Numerical Output --------------------</span>
+<span class="comment">%Any output parameters should go here such as display of graphs, matrices,</span>
+<span class="comment">%values, variables, or tables. For each block of code make sure to answer the</span>
+<span class="comment">%HOW/WHAT/WHY questions above.</span>
+
+<span class="comment">% The plots are a visual way to see what occurs during the sterilization</span>
+<span class="comment">% and cooling processes with regards to the temperature and microorganism</span>
+<span class="comment">% and nutrient content.</span>
+figure
+plot(heating_center)
+xlabel(<span class="string">'Time [s]'</span>)
+ylabel(<span class="string">'Temperature [^oC]'</span>)
+title(<span class="string">'Temperature of Can Center over Time'</span>)
+hold <span class="string">off</span>
+
+figure
+plot(k_cb);
+hold <span class="string">on</span>
+plot(k_cp);
+plot(k_bc);
+xlabel(<span class="string">'Time [s]'</span>)
+ylabel(<span class="string">'Species-dependent Reaction Rate Constant k [1/s]'</span>)
+title(<span class="string">'Species Reduction (Integral Under Curve) over Time'</span>)
+legend(<span class="string">'C. Botulinum'</span>, <span class="string">'C. Perfringens'</span>, <span class="string">'B. Cereus'</span>)
+hold <span class="string">off</span>
+
+figure
+plot(t_logred_avg);
+hold <span class="string">on</span>
+plot(aa_logred_avg);
+plot(c_logred_avg);
+xlabel(<span class="string">'Time [s]'</span>)
+ylabel(<span class="string">'Average Log Reduction in Nutrient Content Throughout Can'</span>)
+title(<span class="string">'Average Log Reduction in Nutrient Content In Can Over Time'</span>)
+legend(<span class="string">'Thiamine'</span>, <span class="string">'Ascorbic Acid'</span>, <span class="string">'Cobalamin'</span>)
+hold <span class="string">off</span>
+<span class="comment">%-------------------------- User-Defined Functions ------------------------</span>
+<span class="keyword">function</span> [t_c] = f_to_c(t_f)
+    <span class="comment">% HOW: This funciton uses the standard temperature conversion formulas.</span>
+    <span class="comment">% WHAT: This function converts temperatures in degrees Fahrenheit to</span>
+    <span class="comment">%       degrees Celsius.</span>
+    <span class="comment">% WHY: The formulas to evaluate the temperature profile require</span>
+    <span class="comment">%      temperature to be in degrees C.</span>
+
+    t_c = 5/9 * (t_f - 32); <span class="comment">% convert to degrees C</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [cm] = in_to_cm(in)
+    <span class="comment">% HOW: This function uses standard length conversions.</span>
+    <span class="comment">% WHAT: This function converts inches to centimeters.</span>
+    <span class="comment">% WHY: This is necessary to put all units into SI units for easier</span>
+    <span class="comment">%      usage in the alorithm.</span>
+
+    cm = in * 2.54; <span class="comment">% centimeters</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [j] = kcal_to_j(kcal)
+    <span class="comment">% HOW: This function uses standard energy unit conversions.</span>
+    <span class="comment">% WHAT: This function converts kilocalories to Joules.</span>
+    <span class="comment">% WHY: This is necessary to put all units into SI units for easier</span>
+    <span class="comment">%      usage in the alorithm.</span>
+
+    j = kcal * 4184; <span class="comment">% Joules</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [min] = days_to_min(days)
+    <span class="comment">% HOW: This function uses standard time conversions.</span>
+    <span class="comment">% WHAT: This function converts days to minutes.</span>
+    <span class="comment">% WHY: This is necessary to keep all D250 values the same time units</span>
+    <span class="comment">%      for easier comparison.</span>
+
+    min = days * 24 * 60; <span class="comment">% minutes</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [density] = choi_okos_density(t_food, protein, fat, carbohydrate, <span class="keyword">...</span>
+    fiber, ash, moisture_content)
+    <span class="comment">% HOW: This function uses the Choi-Okos equation.</span>
+    <span class="comment">% WHAT: This function calculates the density of the food using the</span>
+    <span class="comment">%       relative composition of the food.</span>
+    <span class="comment">% WHY: This funciton is required in order to calculate heat transfer.</span>
+
+    p_density = 1.3299e3 - 5.1840e-1 * t_food; <span class="comment">% kg/m^3</span>
+    fat_density = 9.2559e2 - 4.1757e-1 * t_food; <span class="comment">% kg/m^3</span>
+    c_density = 1.5991e3 - 3.1046e-1 * t_food; <span class="comment">% kg/m^3</span>
+    fiber_density = 1.3115e3 - 3.6589e-1 * t_food; <span class="comment">% kg/m^3</span>
+    a_density = 2.42338e3 - 2.8063e-1 * t_food; <span class="comment">% kg/m^3</span>
+    w_density = 9.9718e2 + 3.1439e-3 * t_food - 3.7574e-3 * t_food ^ 2; <span class="comment">% kg/m^3</span>
+    density = (protein * p_density) + (fat * fat_density) + <span class="keyword">...</span>
+        (carbohydrate * c_density) + (fiber * fiber_density) + <span class="keyword">...</span>
+        (ash * a_density) + (moisture_content * w_density);
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [cp] = choi_okos_cp(t_food, protein, fat, carbohydrate, fiber, <span class="keyword">...</span>
+    ash, moisture_content)
+    <span class="comment">% HOW: This funciton uses the Choi-Okos equation.</span>
+    <span class="comment">% WHAT: This function finds the heat capacity of the food using the</span>
+    <span class="comment">%       relative composition of the food.</span>
+    <span class="comment">% WHY: The heat capacity is required to find the heat transfer within</span>
+    <span class="comment">%      the food.</span>
+
+    p_cp = 2.0082e3 + 1.2089 * t_food - 1.3129e-3 * t_food ^ 2; <span class="comment">% J/kg.C</span>
+    fat_cp = 1.9842e3 + 1.4733 * t_food - 4.8008e-3 * t_food ^ 2; <span class="comment">% J/kg.C</span>
+    c_cp = 1.5488e3 + 1.9625 * t_food - 5.9399e-3 * t_food ^ 2; <span class="comment">% J/kg.C</span>
+    fiber_cp = 1.8459e3 + 1.8306 * t_food - 4.6509e-3 * t_food ^ 2; <span class="comment">% J/kg.C</span>
+    a_cp = 1.0926e3 + 1.8896 * t_food - 3.6817e-3 * t_food ^ 2; <span class="comment">% J/kg.C</span>
+    w_cp = 4.1762e3 - 9.0864e-2 * t_food + 5.4731e-3 * t_food ^ 2; <span class="comment">% J/kg.C</span>
+    cp = (protein * p_cp) + (fat * fat_cp) + (carbohydrate * c_cp) + <span class="keyword">...</span>
+        (fiber * fiber_cp) + (ash * a_cp) + <span class="keyword">...</span>
+        (moisture_content * w_cp); <span class="comment">% J/kg.C</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [k] = choi_okos_k(t_food, protein, fat, carbohydrate, fiber, ash,<span class="keyword">...</span>
+    moisture_content)
+    <span class="comment">% HOW: This funciton uses the Choi-Okos equation.</span>
+    <span class="comment">% WHAT: This function finds the thermal conductivity of the food using</span>
+    <span class="comment">%       the relative composition of the food.</span>
+    <span class="comment">% WHY: The heat capacity is required to find the thermal conductivity</span>
+    <span class="comment">%       within the food.</span>
+
+    p_k = 1.7881e-1 + 1.1958e-3 * t_food - 2.7178e-6 * t_food ^ 2; <span class="comment">% W/m.C</span>
+    fat_k = 1.8071e-1 - 2.7604e-3 * t_food - 1.7749e-7 * t_food ^ 2; <span class="comment">% W/m.C</span>
+    c_k = 2.0141e-1 + 1.3874e-3 * t_food - 4.3312e-6 * t_food ^ 2; <span class="comment">% W/m.C</span>
+    fiber_k = 1.8331e-1 + 1.2497e-3 * t_food - 3.1683e-6 * t_food ^ 2; <span class="comment">% W/m.C</span>
+    a_k = 3.2962e-1 + 1.4011e-3 * t_food - 2.9069e-6 * t_food ^ 2; <span class="comment">% W/m.C</span>
+    w_k = 5.7109e-1 + 1.7625e-3 * t_food - 6.7036e-6 * t_food ^ 2; <span class="comment">% W/m.C</span>
+    k = (protein * p_k) + (fat * fat_k) + (carbohydrate * c_k) + <span class="keyword">...</span>
+        (fiber * fiber_k) + (ash * a_k) + (moisture_content * w_k); <span class="comment">% W/m.C</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [alpha] = choi_okos_alpha(t_food, protein, fat, carbohydrate, <span class="keyword">...</span>
+    fiber, ash, moisture_content)
+    <span class="comment">% HOW: This funciton uses the Choi-Okos equation.</span>
+    <span class="comment">% WHAT: This function finds the thermal diffusivity of the food using</span>
+    <span class="comment">%       the relative composition of the food.</span>
+    <span class="comment">% WHY: The heat capacity is required to find the thermal diffusivity</span>
+    <span class="comment">%      within the food.</span>
+
+    p_a = 6.8714e-8 + 4.7578e-10 * t_food - 1.4646e-12 * t_food ^ 2;
+    fat_a = 9.8777e-8 - 1.2569e-11 * t_food - 3.8286e-14 * t_food ^ 2;
+    c_a = 8.8042e-8 + 5.3052e-10 * t_food - 2.3218e-12 * t_food ^ 2;
+    fiber_a = 7.3976e-8 + 5.1902e-10 * t_food - 2.2202e-12 * t_food ^ 2;
+    a_a = 1.2461e-7 + 3.7321e-10 * t_food - 1.2244e-12 * t_food ^ 2;
+    w_a = 1.3168e-7 + 6.2477e-10 * t_food - 2.4022e-12 * t_food ^ 2;
+    alpha = (protein * p_a) + (fat * fat_a) + (carbohydrate * c_a) + <span class="keyword">...</span>
+        (fiber * fiber_a) + (ash * a_a) + (moisture_content * w_a); <span class="comment">% m^2/s</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [M] = m_calc(delt, alpha, delx)
+    <span class="comment">% HOW: Uses equations from Geankoplis</span>
+    <span class="comment">% WHAT: Calculates the M value in the Geankoplis equations</span>
+    <span class="comment">% WHY: Helps to determine heat transfer behavior.</span>
+
+    M = (delx ^ 2) /  (alpha * delt);
+    <span class="keyword">if</span> M &lt; 4
+        M = 4;
+    <span class="keyword">end</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [T] = T_center(M, T1, T0)
+    <span class="comment">% HOW: Uses equations from Geankoplis at the center node</span>
+    <span class="comment">% WHAT: Calculates the temperature of the center node</span>
+    <span class="comment">% WHY: To calculate how the center of the can heats</span>
+
+    T = (4 / M) * T1 + ((M - 4) / M) * T0; <span class="comment">% deg C</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [del_t] = T_outside(T, h, r, delx, steam_temp, k, T1, rho, cp, delt)
+    <span class="comment">% HOW: Uses equations from Geankoplis</span>
+    <span class="comment">% WHAT: Calculates the temperature of the surface node</span>
+    <span class="comment">% WHY: To calculate how the surface of the can heats</span>
+
+    del_t = (delt * (((h * 2 * pi * r * delx * (steam_temp - T)) - (k * 2 * (r - (1/2)) * (T - T1)))/(rho * cp * (((r * delx) ^ 2) - (((r - (1/2)) * delx) ^ 2)))));
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [T] = T_other(r, M, T2, T1, T)
+   <span class="comment">% HOW: Uses equations from Geankoplis</span>
+   <span class="comment">% WHAT: Calculates the temperature of the nodes between the surface and</span>
+   <span class="comment">% the center</span>
+   <span class="comment">% WHY: To calculate how the food heats</span>
+
+    a = ((2 * r) + 1) / (2 * r);
+    b = M - 2;
+    c = ((2 * r) - 1) / (2 * r);
+    T = (1 / M) * ((a * T2) + (b * T1) + (c * T)); <span class="comment">% deg C</span>
+<span class="keyword">end</span>
+
+<span class="keyword">function</span> [k121] = thermal_reduction(d250, ea, temp)
+    <span class="comment">% HOW: Uses formulas from Geankoplis</span>
+    <span class="comment">% WHAT: Calculates the reduction of a microorganism or nutrient</span>
+    <span class="comment">% WHY: To determine microorganism and nutrient activity.</span>
+
+    k250 = 2.303 / d250; <span class="comment">% min ^ -1</span>
+    t_ref = f_to_c(250); <span class="comment">% deg C</span>
+    R_const = 8.314; <span class="comment">% J/mol.K</span>
+    k0 = k250 / exp((-1 * ea) / (R_const * t_ref)); <span class="comment">% min ^ -1</span>
+    k121 = k0 * exp((-1 * ea) / (R_const * temp)); <span class="comment">% min ^ -1</span>
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">The time to reach the minimum sterilization requirement is 3.30 hours.
+The maximum temperature of the center of the can is 118.3 degrees C.
+The total sterilization and cooling process takes 4.89 hours.
+The total reduction in C. Botulinum is 53.03.
+The total reduction in C. Perfringens is 125.83.
+The total reduction in B. Cereus is 1207.12.
+The total reduction in Thiamine is 1.67.
+The total reduction in Ascorbic Acid is 0.35.
+The total reduction in Cobalamin is 0.20.
+</pre><img vspace="5" hspace="5" src="atherton_557_sterilization_project_01.png" alt=""> <img vspace="5" hspace="5" src="atherton_557_sterilization_project_02.png" alt=""> <img vspace="5" hspace="5" src="atherton_557_sterilization_project_03.png" alt=""> <p class="footer"><br><a href="https://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2018b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+
+% Name: Kathryn Atherton
+
+% Food Material: Pumpkin Pie Filling
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+%USE THIS TEMPLATE FOR EACH SCRIPT/FUNCTION THAT YOU WRITE
+%For each block of code (5-10 lines) in the model provide the following:
+%       HOW: How does this block of code work?
+%       WHAT: What does the block of code represent?
+%       WHY: Why is this block of code included in the model?
+%For more details, an example of good commenting and bad commenting has
+%been uploaded to Blackboard.
+% REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+
+% These lines clear the command window and the workspace and close any 
+% previously made images to ensure the code runs smoothly.
+
+clc;
+clear;
+close all;
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-Thermal/Physical Properties of the System REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+%Here place any/all thermal, physical, or kinetic properties of the system.
+%For each block make sure to answer the HOW/WHAT/WHY questions above. 
+
+% Define how heat moves through the material so that the equations later in
+% the code can be used. Most of the variables came from the memo/assignment 
+% document but the food composition data came from the USDA database. 
+% User-defined functions (described below) converted Imperial units to SI 
+% units for easier calculations. 
+
+% Filling Properties
+fill_temp = 180; % deg F, given in blueprint
+
+fill_temp = f_to_c(fill_temp); % deg C
+
+% Full Steam Immersion Retort Properties
+steam_temp = 250; % deg F, given in blueprint
+
+steam_temp = f_to_c(steam_temp); % deg C
+
+% Cooling Water Immersion Properties
+exit_temp = 100; % deg F, given in blueprint
+cool_water_temp_min = 50; % deg F, given in blueprint
+cool_water_temp_max = 60; % deg F, given in blueprint
+
+exit_temp = f_to_c(exit_temp); % deg C
+cool_water_temp_min = f_to_c(cool_water_temp_min); % deg C
+cool_water_temp_max = f_to_c(cool_water_temp_max); % deg C
+cool_water_temp = mean([cool_water_temp_min, cool_water_temp_max]); % deg C
+
+% Production Line Time Breakdown Properties
+moisture_content_min = 45; % percent, given in properties of food materials and microbes  
+moisture_content_max = 50; % percent, given in properties of food materials and microbes
+can_diameter = 4.25; % inches, from https://www.everythingkitchens.com/wisconsin-aluminum-1502-senior-flywheel-can-sealer.html
+
+can_diameter = in_to_cm(can_diameter); % cm
+
+% Kinetic Properties of Food Components - selected "worst case scenario"
+% values 
+t_ea = 27; % kcal/mol, given in properties of food materials and microbes
+t_d250 = 246.9; % min, given in properties of food materials and microbes
+aa_ea = 24; % kcal/mol, given in properties of food materials and microbes
+aa_d250 = 1.12; % days, given in properties of food materials and microbes
+c_ea = 24; % kcal/mol, given in properties of food materials and microbes
+c_d250 = 1.94; % days, given in properties of food materials and microbes
+
+t_ea = kcal_to_j(t_ea); % J/mol
+aa_ea = kcal_to_j(aa_ea); % J/mol
+c_ea = kcal_to_j(c_ea); % J/mol
+aa_d250 = days_to_min(aa_d250); % min
+c_d250 = days_to_min(c_d250); % min
+
+% Kinetic Properties of Microorganisms
+cb_ea = 64; % kcal/mol, given in properties of food materials and microbes
+cb_d250 = 0.2; % min, given in properties of food materials and microbes
+cp_ea = 72; % kcal/mol, given in properties of food materials and microbes
+cp_d250 = 0.04; % min, given in properties of food materials and microbes
+bc_ea = 65; % kcal/mol, given in properties of food materials and microbes
+bc_d250 = 0.008; % min, given in properties of food materials and microbes
+
+cb_ea = kcal_to_j(cb_ea); % J/mol
+cp_ea = kcal_to_j(cp_ea); % J/mol
+bc_ea = kcal_to_j(bc_ea); % J/mol
+
+
+% Nutrient Content of Food Material, Data from USDA Food Composition
+% Database (ndb.nal.usda.gov/nd), using data from Stonewall Kitchen Ltd.
+% Pumpkin Pie Filling
+protein = 0.00; % g protein / 100 g
+fat = 0.00; % g fat / 100 g
+carbohydrate = 51.11 / 100; % g carbs / gram
+fiber = 1.1 / 100; % g fiber / gram
+moisture_content = 1 - protein - fat - carbohydrate - fiber; % g water / gram
+ash = 0.00 / 100; % g ash / gram
+if moisture_content < (moisture_content_min / 100)
+    moisture_content = moisture_content_min / 100;
+elseif moisture_content > (moisture_content_max / 100)
+    moisture_content = (moisture_content_max / 100);
+    ash = 1 - protein - fat - carbohydrate - fiber - moisture_content;
+end
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-Numerical/Analytical Calculations REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH-
+%Here place any calculations, mathematical structures, looping structures,
+%etc that are necessary for the modeling activity. For block of code or 
+%structure make sure to answer the HOW/WHAT/WHY questions above. 
+
+% This works by assuming a small delta t value (1 second) and an M value of 
+% 4 and then calculating delta x from these values before dividing the 
+% radius of the can by the number of layers. This must be done to set the 
+% number of iterations the program must run through for each time iteration. 
+
+delt = 1; % s
+M = 4;
+t_food = fill_temp; % deg C 
+alpha = choi_okos_alpha(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); % m^2/s
+delx = sqrt(M * delt * alpha); % m
+delx_cm = delx * 100; 
+layers = round((can_diameter / 2) / delx_cm) + 1; 
+n = layers; % layers, currently at surface
+
+% This uses the Choi-Okos equation for the given initial temperature in 
+% order to start the process of calculating the heat transfer behavior.
+
+k = choi_okos_k(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); % W/m.C
+rho = choi_okos_density(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); % kg/m^3, from https://www.aqua-calc.com/calculate/food-volume-to-weight
+cp = choi_okos_cp(t_food, protein, fat, carbohydrate, fiber, ash, moisture_content); % J/kg.C, from https://www.engineeringtoolbox.com/specific-heat-capacity-food-d_295.html
+h_steam = 1/(1/6000 + 1/166); % W/m^2.C, from ASHRAE Handbook Chapter 9: Thermal Properties of Food
+h_water = 1/(1/300 + 1/166);
+t = 0; % s
+T = ones(1, layers) * t_food; % deg C
+T_new = T; % deg C
+
+% The arrays are a helpful way to store information to be used later for 
+% each iteration when an unknown number of iterations will occur as before
+% the loop it is unknown how much time it will take to reach the minimum 
+% desired sterilization level. 
+heating_center = [];
+k_cb = thermal_reduction(cb_d250, cb_ea, T(1));
+k_cp = thermal_reduction(cp_d250, cp_ea, T(1));
+k_bc = thermal_reduction(bc_d250, bc_ea, T(1));
+k_t = thermal_reduction(t_d250, t_ea, T(1));
+k_aa = thermal_reduction(aa_d250, aa_ea, T(1));
+k_c = thermal_reduction(c_d250, c_ea, T(1));
+t_avg = [];
+aa_avg = [];
+c_avg = [];
+k_t_avg = [];
+k_aa_avg = [];
+k_c_avg = [];
+lnreduction_cb = 0;
+lnreduction_cp = 0;
+lnreduction_bc = 0;
+lnreduction_t = 0;
+lnreduction_aa = 0;
+lnreduction_c = 0;
+
+
+% This loop first steps the time and then goes through each node from the 
+% surface to the center and calculates the temperature at that node by 
+% first calculating all the parameters needed via the Choi-Okos using the 
+% last temperature at that node. Then a new temperature is calculated with 
+% the equations defined in Geankoplis. The desired temperatures are stored 
+% in an array. The k value for each microorganism and nutrient is then 
+% calculated. At the end of the loop, the desired data points are saved, 
+% the average nutrient content is found for that time point and saved, and 
+% the total reduction in each microorganism and nutrient is calculated with 
+% the trapezoidal method. Then, the parameters such as time and node number
+% are reset for the next iteration. This continues until the targeted 
+% microorganism, C. Botulinum, reaches the minimum required reduction to 
+% meet sterilization requirements. 
+while lnreduction_cb < 12
+    t = t + delt;
+   while n > 0
+       if n == 1
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(1) = T_center(M, T(2), T(1)); % deg C
+           heating_center = [heating_center, T_new(1)];
+           k_cb = [k_cb, thermal_reduction(cb_d250, cb_ea, T_new(1))];
+           k_cp = [k_cp, thermal_reduction(cp_d250, cp_ea, T_new(1))];
+           k_bc = [k_bc, thermal_reduction(bc_d250, bc_ea, T_new(1))];
+           k_t = [k_t, thermal_reduction(t_d250, t_ea, T_new(1))];
+           k_aa = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(1))];
+           k_c = [k_c, thermal_reduction(c_d250, c_ea, T_new(1))];
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       elseif n == layers
+           k = choi_okos_k(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           rho = choi_okos_density(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           cp = choi_okos_cp(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           T_new(n) = T_outside(T(n), h_steam, n, delx, steam_temp, k, T(n-1), rho, cp, delt) + T(n); % deg C 
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       else
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(n) = T_other(n, M, T(n+1), T(n), T(n-1)); % deg C
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       end
+       n = n - 1; 
+   end
+   T = T_new; 
+   n = layers;
+   t_avg = [t_avg, mean(k_t_avg)];
+   aa_avg = [aa_avg, mean(k_aa_avg)];
+   c_avg = [c_avg, mean(k_c_avg)];
+   k_t_avg = [];
+   k_aa_avg = [];
+   k_c_avg = [];
+   lnreduction_cb = trapz(k_cb); % log reduction
+   lnreduction_cp = trapz(k_cp); % log reduction
+   lnreduction_bc = trapz(k_bc); % log reduction
+   lnreduction_t = trapz(k_t); % log reduction
+   lnreduction_aa = trapz(k_aa); % log reduction
+   lnreduction_c = trapz(k_c); % log reduction
+end
+
+% These inform the user that the code is progressing as it should and 
+% outputs important data points such as the optimum temperature and 
+% sterilization time.
+t_hours = t / 3600;
+fprintf('The time to reach the minimum sterilization requirement is %.2f hours.\n', t_hours);
+fprintf('The maximum temperature of the center of the can is %.1f degrees C.\n', T(1));
+
+% This loop first steps the time and then goes through each node from the 
+% surface to the center and calculates the temperature at that node by 
+% first calculating all the parameters needed via the Choi-Okos using the 
+% last temperature at that node. Then a new temperature is calculated with 
+% the equations defined in Geankoplis. The desired temperatures are stored 
+% in an array. The k value for each microorganism and nutrient is then 
+% calculated. At the end of the loop, the desired data points are saved, 
+% the average nutrient content is found for that time point and saved, and 
+% the total reduction in each microorganism and nutrient is calculated with 
+% the trapezoidal method. The average temperature of the can is calculated. 
+% Then, the parameters such as time and node number are reset for the next 
+% iteration. This continues until the average temperature of the can 
+% reaches the desired temperature. 
+while mean(T) > exit_temp
+    t = t + delt;
+   while n > 0
+       if n == 1
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(1) = T_center(M, T(2), T(1)); % deg C
+           heating_center = [heating_center, T_new(1)];
+           k_cb = [k_cb, thermal_reduction(cb_d250, cb_ea, T_new(1))];
+           k_cp = [k_cp, thermal_reduction(cp_d250, cp_ea, T_new(1))];
+           k_bc = [k_bc, thermal_reduction(bc_d250, bc_ea, T_new(1))];
+           k_t = [k_t, thermal_reduction(t_d250, t_ea, T_new(1))];
+           k_aa = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(1))];
+           k_c = [k_c, thermal_reduction(c_d250, c_ea, T_new(1))];
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       elseif n == layers
+           k = choi_okos_k(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           rho = choi_okos_density(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           cp = choi_okos_cp(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           T_new(n) = T_outside(T(n), h_water, n, delx, cool_water_temp, k, T(n-1), rho, cp, delt) + T(n); % deg C 
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       else
+           alpha = choi_okos_alpha(T(n), protein, fat, carbohydrate, fiber, ash, moisture_content);
+           M = m_calc(delt, alpha, delx);
+           T_new(n) = T_other(n, M, T(n+1), T(n), T(n-1)); % deg C
+           k_t_avg = [k_t_avg, thermal_reduction(t_d250, t_ea, T_new(n))];
+           k_aa_avg = [k_aa, thermal_reduction(aa_d250, aa_ea, T_new(n))];
+           k_c_avg = [k_c_avg, thermal_reduction(c_d250, c_ea, T_new(n))];
+       end
+       n = n - 1; 
+   end
+   t_avg = [t_avg, mean(k_t_avg)];
+   aa_avg = [aa_avg, mean(k_aa_avg)];
+   c_avg = [c_avg, mean(k_c_avg)];
+   k_t_avg = [];
+   k_aa_avg = [];
+   k_c_avg = [];
+   T = T_new; 
+   n = layers;
+   lnreduction_cb = trapz(k_cb); % log reduction
+   lnreduction_cp = trapz(k_cp); % log reduction
+   lnreduction_bc = trapz(k_bc); % log reduction
+   lnreduction_t = trapz(k_t); % log reduction
+   lnreduction_aa = trapz(k_aa); % log reduction
+   lnreduction_c = trapz(k_c); % log reduction
+end
+
+% These inform the user that the code is progressing as it should and 
+% outputs important data points such as the reduction of the microorganisms 
+% and nutrients and the total sterilization and cooling time.
+t_hours = t / 3600; % hours
+fprintf('The total sterilization and cooling process takes %.2f hours.\n', t_hours);
+fprintf('The total reduction in C. Botulinum is %.2f.\n', lnreduction_cb);
+fprintf('The total reduction in C. Perfringens is %.2f.\n', lnreduction_cp);
+fprintf('The total reduction in B. Cereus is %.2f.\n', lnreduction_bc)
+fprintf('The total reduction in Thiamine is %.2f.\n', lnreduction_t)
+fprintf('The total reduction in Ascorbic Acid is %.2f.\n', lnreduction_aa)
+fprintf('The total reduction in Cobalamin is %.2f.\n', lnreduction_c)
+
+% This section is performed to be able to plot the average nutrient 
+% activity of the can. 
+t_logred_avg = t_avg .* t;
+aa_logred_avg = aa_avg .* t;
+c_logred_avg = c_avg .* t;
+
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH Graphical/Numerical Output REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+%Any output parameters should go here such as display of graphs, matrices,
+%values, variables, or tables. For each block of code make sure to answer the
+%HOW/WHAT/WHY questions above. 
+
+% The plots are a visual way to see what occurs during the sterilization
+% and cooling processes with regards to the temperature and microorganism 
+% and nutrient content. 
+figure
+plot(heating_center)
+xlabel('Time [s]')
+ylabel('Temperature [^oC]')
+title('Temperature of Can Center over Time')
+hold off
+
+figure
+plot(k_cb);
+hold on
+plot(k_cp);
+plot(k_bc);
+xlabel('Time [s]')
+ylabel('Species-dependent Reaction Rate Constant k [1/s]')
+title('Species Reduction (Integral Under Curve) over Time')
+legend('C. Botulinum', 'C. Perfringens', 'B. Cereus')
+hold off
+
+figure 
+plot(t_logred_avg);
+hold on
+plot(aa_logred_avg);
+plot(c_logred_avg);
+xlabel('Time [s]')
+ylabel('Average Log Reduction in Nutrient Content Throughout Can')
+title('Average Log Reduction in Nutrient Content In Can Over Time')
+legend('Thiamine', 'Ascorbic Acid', 'Cobalamin')
+hold off
+%REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH User-Defined Functions REPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASHREPLACE_WITH_DASH_DASH
+function [t_c] = f_to_c(t_f)
+    % HOW: This funciton uses the standard temperature conversion formulas. 
+    % WHAT: This function converts temperatures in degrees Fahrenheit to
+    %       degrees Celsius.
+    % WHY: The formulas to evaluate the temperature profile require
+    %      temperature to be in degrees C. 
+    
+    t_c = 5/9 * (t_f - 32); % convert to degrees C
+end
+
+function [cm] = in_to_cm(in)
+    % HOW: This function uses standard length conversions.
+    % WHAT: This function converts inches to centimeters. 
+    % WHY: This is necessary to put all units into SI units for easier
+    %      usage in the alorithm.
+        
+    cm = in * 2.54; % centimeters
+end
+
+function [j] = kcal_to_j(kcal)
+    % HOW: This function uses standard energy unit conversions.
+    % WHAT: This function converts kilocalories to Joules. 
+    % WHY: This is necessary to put all units into SI units for easier
+    %      usage in the alorithm.
+    
+    j = kcal * 4184; % Joules
+end
+
+function [min] = days_to_min(days)
+    % HOW: This function uses standard time conversions.
+    % WHAT: This function converts days to minutes. 
+    % WHY: This is necessary to keep all D250 values the same time units 
+    %      for easier comparison.
+        
+    min = days * 24 * 60; % minutes
+end
+
+function [density] = choi_okos_density(t_food, protein, fat, carbohydrate, ...
+    fiber, ash, moisture_content)
+    % HOW: This function uses the Choi-Okos equation.
+    % WHAT: This function calculates the density of the food using the 
+    %       relative composition of the food.
+    % WHY: This funciton is required in order to calculate heat transfer.
+    
+    p_density = 1.3299e3 - 5.1840e-1 * t_food; % kg/m^3
+    fat_density = 9.2559e2 - 4.1757e-1 * t_food; % kg/m^3
+    c_density = 1.5991e3 - 3.1046e-1 * t_food; % kg/m^3
+    fiber_density = 1.3115e3 - 3.6589e-1 * t_food; % kg/m^3
+    a_density = 2.42338e3 - 2.8063e-1 * t_food; % kg/m^3
+    w_density = 9.9718e2 + 3.1439e-3 * t_food - 3.7574e-3 * t_food ^ 2; % kg/m^3
+    density = (protein * p_density) + (fat * fat_density) + ...
+        (carbohydrate * c_density) + (fiber * fiber_density) + ...
+        (ash * a_density) + (moisture_content * w_density);
+end
+
+function [cp] = choi_okos_cp(t_food, protein, fat, carbohydrate, fiber, ...
+    ash, moisture_content)
+    % HOW: This funciton uses the Choi-Okos equation.
+    % WHAT: This function finds the heat capacity of the food using the 
+    %       relative composition of the food.
+    % WHY: The heat capacity is required to find the heat transfer within
+    %      the food.
+    
+    p_cp = 2.0082e3 + 1.2089 * t_food - 1.3129e-3 * t_food ^ 2; % J/kg.C
+    fat_cp = 1.9842e3 + 1.4733 * t_food - 4.8008e-3 * t_food ^ 2; % J/kg.C
+    c_cp = 1.5488e3 + 1.9625 * t_food - 5.9399e-3 * t_food ^ 2; % J/kg.C
+    fiber_cp = 1.8459e3 + 1.8306 * t_food - 4.6509e-3 * t_food ^ 2; % J/kg.C
+    a_cp = 1.0926e3 + 1.8896 * t_food - 3.6817e-3 * t_food ^ 2; % J/kg.C
+    w_cp = 4.1762e3 - 9.0864e-2 * t_food + 5.4731e-3 * t_food ^ 2; % J/kg.C  
+    cp = (protein * p_cp) + (fat * fat_cp) + (carbohydrate * c_cp) + ...
+        (fiber * fiber_cp) + (ash * a_cp) + ...
+        (moisture_content * w_cp); % J/kg.C
+end
+    
+function [k] = choi_okos_k(t_food, protein, fat, carbohydrate, fiber, ash,...
+    moisture_content)
+    % HOW: This funciton uses the Choi-Okos equation.
+    % WHAT: This function finds the thermal conductivity of the food using 
+    %       the relative composition of the food.
+    % WHY: The heat capacity is required to find the thermal conductivity 
+    %       within the food.
+    
+    p_k = 1.7881e-1 + 1.1958e-3 * t_food - 2.7178e-6 * t_food ^ 2; % W/m.C
+    fat_k = 1.8071e-1 - 2.7604e-3 * t_food - 1.7749e-7 * t_food ^ 2; % W/m.C
+    c_k = 2.0141e-1 + 1.3874e-3 * t_food - 4.3312e-6 * t_food ^ 2; % W/m.C
+    fiber_k = 1.8331e-1 + 1.2497e-3 * t_food - 3.1683e-6 * t_food ^ 2; % W/m.C
+    a_k = 3.2962e-1 + 1.4011e-3 * t_food - 2.9069e-6 * t_food ^ 2; % W/m.C
+    w_k = 5.7109e-1 + 1.7625e-3 * t_food - 6.7036e-6 * t_food ^ 2; % W/m.C
+    k = (protein * p_k) + (fat * fat_k) + (carbohydrate * c_k) + ...
+        (fiber * fiber_k) + (ash * a_k) + (moisture_content * w_k); % W/m.C
+end
+
+function [alpha] = choi_okos_alpha(t_food, protein, fat, carbohydrate, ...
+    fiber, ash, moisture_content)
+    % HOW: This funciton uses the Choi-Okos equation.
+    % WHAT: This function finds the thermal diffusivity of the food using 
+    %       the relative composition of the food.
+    % WHY: The heat capacity is required to find the thermal diffusivity
+    %      within the food.
+    
+    p_a = 6.8714e-8 + 4.7578e-10 * t_food - 1.4646e-12 * t_food ^ 2;
+    fat_a = 9.8777e-8 - 1.2569e-11 * t_food - 3.8286e-14 * t_food ^ 2;
+    c_a = 8.8042e-8 + 5.3052e-10 * t_food - 2.3218e-12 * t_food ^ 2; 
+    fiber_a = 7.3976e-8 + 5.1902e-10 * t_food - 2.2202e-12 * t_food ^ 2;
+    a_a = 1.2461e-7 + 3.7321e-10 * t_food - 1.2244e-12 * t_food ^ 2; 
+    w_a = 1.3168e-7 + 6.2477e-10 * t_food - 2.4022e-12 * t_food ^ 2;
+    alpha = (protein * p_a) + (fat * fat_a) + (carbohydrate * c_a) + ...
+        (fiber * fiber_a) + (ash * a_a) + (moisture_content * w_a); % m^2/s
+end
+
+function [M] = m_calc(delt, alpha, delx)
+    % HOW: Uses equations from Geankoplis
+    % WHAT: Calculates the M value in the Geankoplis equations
+    % WHY: Helps to determine heat transfer behavior. 
+    
+    M = (delx ^ 2) /  (alpha * delt); 
+    if M < 4
+        M = 4;
+    end
+end
+
+function [T] = T_center(M, T1, T0)
+    % HOW: Uses equations from Geankoplis at the center node
+    % WHAT: Calculates the temperature of the center node
+    % WHY: To calculate how the center of the can heats
+    
+    T = (4 / M) * T1 + ((M - 4) / M) * T0; % deg C
+end
+
+function [del_t] = T_outside(T, h, r, delx, steam_temp, k, T1, rho, cp, delt)
+    % HOW: Uses equations from Geankoplis
+    % WHAT: Calculates the temperature of the surface node
+    % WHY: To calculate how the surface of the can heats
+    
+    del_t = (delt * (((h * 2 * pi * r * delx * (steam_temp - T)) - (k * 2 * (r - (1/2)) * (T - T1)))/(rho * cp * (((r * delx) ^ 2) - (((r - (1/2)) * delx) ^ 2)))));
+end
+
+function [T] = T_other(r, M, T2, T1, T)
+   % HOW: Uses equations from Geankoplis
+   % WHAT: Calculates the temperature of the nodes between the surface and
+   % the center
+   % WHY: To calculate how the food heats
+    
+    a = ((2 * r) + 1) / (2 * r);
+    b = M - 2;
+    c = ((2 * r) - 1) / (2 * r); 
+    T = (1 / M) * ((a * T2) + (b * T1) + (c * T)); % deg C
+end
+
+function [k121] = thermal_reduction(d250, ea, temp)
+    % HOW: Uses formulas from Geankoplis
+    % WHAT: Calculates the reduction of a microorganism or nutrient
+    % WHY: To determine microorganism and nutrient activity. 
+    
+    k250 = 2.303 / d250; % min ^ -1
+    t_ref = f_to_c(250); % deg C
+    R_const = 8.314; % J/mol.K 
+    k0 = k250 / exp((-1 * ea) / (R_const * t_ref)); % min ^ -1
+    k121 = k0 * exp((-1 * ea) / (R_const * temp)); % min ^ -1
+end
+##### SOURCE END #####
+--></body></html>
